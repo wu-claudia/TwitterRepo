@@ -2,7 +2,9 @@ package com.codepath.apps.mysimpletweets.models;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.parceler.Parcel;
 
+@Parcel
 public class User {
     //List the attributes
     private String name;
@@ -12,6 +14,12 @@ public class User {
 
     private String tagline;
     private int followersCount;
+
+    private String fullName;
+
+    public String getFullName() {
+        return fullName;
+    }
 
     public int getFriendsCount() {
         return followingCount;
@@ -55,10 +63,15 @@ public class User {
             u.tagline = json.getString("description");
             u.followersCount = json.getInt("followers_count");
             u.followingCount = json.getInt("friends_count");
+            u.fullName = json.getString("name");
         } catch (JSONException e) {
             e.printStackTrace();
         }
         //Return a user
         return u;
+    }
+
+    public User() {
+
     }
 }

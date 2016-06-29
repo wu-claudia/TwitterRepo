@@ -1,6 +1,8 @@
-package com.codepath.apps.mysimpletweets;
+package com.codepath.apps.mysimpletweets.activities;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -11,14 +13,24 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.astuetz.PagerSlidingTabStrip;
+import com.codepath.apps.mysimpletweets.R;
 import com.codepath.apps.mysimpletweets.fragments.HomeTimelineFragment;
 import com.codepath.apps.mysimpletweets.fragments.MentionsTimelineFragment;
+import com.codepath.apps.mysimpletweets.models.Tweet;
+
+import org.parceler.Parcels;
 
 public class TimelineActivity extends AppCompatActivity {
 
     ViewPager vpPager;
     PagerSlidingTabStrip tabStrip;
     TweetsPagerAdapter adapter;
+    Tweet tweet;
+    private int REQUEST_CODE = 50;
+
+    HomeTimelineFragment homeTimeline;
+    MentionsTimelineFragment mentionsTimeline;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +47,11 @@ public class TimelineActivity extends AppCompatActivity {
         // Attach the tabstrip to the viewpager
         tabStrip.setViewPager(vpPager);
         //Log.d("TimelineActivity","got here");
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#4099FF")));
+
+        homeTimeline = new HomeTimelineFragment();
+        mentionsTimeline = new MentionsTimelineFragment();
+
     }
 
     @Override
@@ -59,6 +76,19 @@ public class TimelineActivity extends AppCompatActivity {
         startActivity(i);
     }
 
+    public void onComposeView(MenuItem mi) {
+        Intent i = new Intent(this, ComposeActivity.class);
+        startActivityForResult(i,REQUEST_CODE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK && requestCode == REQUEST_CODE) {
+            tweet = Parcels.unwrap(data.getParcelableExtra("tweet"));
+            homeTimeline.addTweet(tweet);
+        }
+    }
+
     // Return the order of the fragments in the view pager
     public class TweetsPagerAdapter extends FragmentPagerAdapter {
         final int PAGE_COUNT = 2;
@@ -72,9 +102,9 @@ public class TimelineActivity extends AppCompatActivity {
         @Override
         public Fragment getItem(int position) {
             if (position == 0) {
-                return new HomeTimelineFragment();
+                return homeTimeline;
             } else if (position == 1) {
-                return new MentionsTimelineFragment();
+                return mentionsTimeline;
             } else {
                 return null;
             }

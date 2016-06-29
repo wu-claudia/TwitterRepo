@@ -3,10 +3,12 @@ package com.codepath.apps.mysimpletweets.models;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.parceler.Parcel;
 
 import java.util.ArrayList;
 
 // Parse the JSON + Store the data, encapsulate state logic or display logic
+@Parcel
 public class Tweet {
     // List out the attributes
     private String body;
@@ -68,5 +70,8 @@ public class Tweet {
 
         //Return the finished list
         return tweets;
+    }
+
+    public Tweet() {
     }
 }

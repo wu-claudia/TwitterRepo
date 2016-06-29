@@ -30,6 +30,7 @@ public class TweetsListFragment extends Fragment {
         lvTweets = (ListView) v.findViewById(R.id.lvTweets);
         //Connect adapter to list view
         lvTweets.setAdapter(aTweets);
+        //lvTweets.setOnItemClickListener()
         return v;
     }
 
@@ -45,5 +46,10 @@ public class TweetsListFragment extends Fragment {
 
     public void addAll(List<Tweet> tweets) {
         aTweets.addAll(tweets);
+    }
+
+    public void addTweet(Tweet tweet) {
+        tweets.add(0,tweet);
+        aTweets.notifyDataSetChanged();
     }
 }

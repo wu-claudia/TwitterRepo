@@ -2,7 +2,6 @@ package com.codepath.apps.mysimpletweets.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import com.codepath.apps.mysimpletweets.TwitterApplication;
 import com.codepath.apps.mysimpletweets.TwitterClient;
@@ -41,7 +40,7 @@ public class UserTimelineFragment extends TweetsListFragment {
             // SUCCESS
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray json) {
-                Log.d("DEBUG", json.toString());
+                //Log.d("DEBUG", json.toString());
                 // DESERIALIZE JSON
                 // CREATE MODELS AND ADD THEM TO THE ADAPTER
                 // LOAD THE MODEL DATA INTO LISTVIEW
@@ -52,7 +51,7 @@ public class UserTimelineFragment extends TweetsListFragment {
             // FAILURE
             @Override
             public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                Log.d("DEBUG", errorResponse.toString());
+                //Log.d("DEBUG", errorResponse.toString());
             }
         });
     }

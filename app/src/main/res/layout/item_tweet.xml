@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:padding="10dp">
 
     <ImageView
@@ -10,14 +12,15 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:background="#000"
         android:padding="10dp"
-        android:layout_marginRight="5dp" />
+        android:layout_marginRight="5dp"
+        android:scaleType="fitXY"
+        tools:src="@drawable/ic_launcher"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Billy"
+        tools:text="Billy"
         android:id="@+id/tvUserName"
         android:layout_alignParentTop="true"
         android:layout_toRightOf="@+id/ivProfileImage"
@@ -26,10 +29,30 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Text"
+        tools:text="Body of Tweet"
         android:id="@+id/tvBody"
-        android:layout_alignBottom="@+id/ivProfileImage"
         android:layout_toRightOf="@+id/ivProfileImage"
-        android:layout_toEndOf="@+id/ivProfileImage" />
+        android:layout_below="@+id/tvUserName"
+        android:autoLink="all"
+        android:linksClickable="true"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="billy"
+        android:id="@+id/tvName"
+        android:layout_above="@+id/tvBody"
+        android:layout_toRightOf="@+id/tvUserName"
+        android:layout_marginLeft="10dp"
+        android:layout_alignParentTop="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="1m"
+        android:id="@+id/tvTime"
+        android:layout_above="@+id/tvBody"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true" />
 
 </RelativeLayout>

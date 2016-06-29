@@ -1,14 +1,18 @@
-package com.codepath.apps.mysimpletweets;
+package com.codepath.apps.mysimpletweets.activities;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.codepath.apps.mysimpletweets.R;
+import com.codepath.apps.mysimpletweets.TwitterApplication;
+import com.codepath.apps.mysimpletweets.TwitterClient;
 import com.codepath.apps.mysimpletweets.fragments.UserTimelineFragment;
 import com.codepath.apps.mysimpletweets.models.User;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -16,11 +20,14 @@ import com.squareup.picasso.Picasso;
 
 import org.json.JSONObject;
 
+import java.text.NumberFormat;
+
 import cz.msebera.android.httpclient.Header;
 
 public class ProfileActivity extends AppCompatActivity {
     TwitterClient client;
     User user;
+    String screenName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,15 +35,20 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
         client = TwitterApplication.getRestClient();
         // Get the account info
-        Log.d("INFO", "yay!");
-        client.getUserInfo(new JsonHttpResponseHandler() {
+        String username = getIntent().getStringExtra("username");
+        if (getIntent().getStringExtra("username") != null) {
+            screenName = getIntent().getStringExtra("username");
+        } else {
+            screenName = getIntent().getStringExtra("screen_name");
+        }
+        client.getUserInfo(screenName,new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 user = User.fromJSON(response);
                 // My current user account's info
                 getSupportActionBar().setTitle(user.getScreenName());
+                getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#4099FF")));
                 populateProfileHeader(user);
-                Log.d("Success!", response.toString());
             }
 
             @Override
@@ -45,10 +57,6 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-
-
-        // Get the screen name from the activity that launches this
-        String screenName = getIntent().getStringExtra("screen_name");
         if (savedInstanceState == null) {
             // Create the user timeline fragment
             UserTimelineFragment fragmentUserTimeline = UserTimelineFragment.newInstance(screenName);
@@ -70,8 +78,8 @@ public class ProfileActivity extends AppCompatActivity {
 
         tvName.setText(user.getName());
         tvTagline.setText(user.getTagline());
-        tvFollowers.setText(user.getFollowersCount() + " Followers");
-        tvFollowing.setText(user.getFriendsCount() + " Following");
+        tvFollowers.setText(NumberFormat.getIntegerInstance().format(user.getFollowersCount()) + " Followers");
+        tvFollowing.setText(NumberFormat.getIntegerInstance().format(user.getFriendsCount()) + " Following");
         Picasso.with(this).load(user.getProfileImageUrl()).into(ivProfileImage);
     }
 
