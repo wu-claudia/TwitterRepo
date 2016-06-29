@@ -14,7 +14,7 @@
         android:id="@+id/miCompose"
         android:title="Compose"
         app:showAsAction="ifRoom"
-        android:icon="@drawable/ic_twill"
+        android:icon="@drawable/ic_quill"
         android:onClick="onComposeView">
     </item>
 

@@ -15,7 +15,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginTop="10dp">
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -37,6 +38,7 @@
             android:layout_width="75dp"
             android:layout_height="75dp"
             android:id="@+id/ivProfileImage"
+            android:padding="6dp"
             tools:src="@drawable/ic_launcher" />
 
     </LinearLayout>
@@ -51,16 +53,40 @@
         android:layout_alignRight="@+id/llComposeHeader"
         android:layout_alignEnd="@+id/llComposeHeader"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:gravity="top"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/tweet"
+        android:textColor="#fff"
         android:id="@+id/btTweet"
-        android:layout_marginBottom="46dp"
+        android:layout_marginBottom="48dp"
+        android:onClick="onTweet"
+        android:background="#55acee"
         android:layout_alignParentBottom="true"
-        android:layout_alignLeft="@+id/llComposeHeader"
-        android:layout_alignStart="@+id/llComposeHeader"
-        android:onClick="onTweet"/>
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="20dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="Count"
+        android:id="@+id/tvCount"
+        android:layout_toLeftOf="@+id/btTweet"
+        android:layout_below="@+id/etStatus"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="10dp"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ivX"
+        android:src="@drawable/ic_x_icon"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:onClick="onXReturn"/>
 </RelativeLayout>

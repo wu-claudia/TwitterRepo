@@ -1,9 +1,13 @@
 package com.codepath.apps.mysimpletweets.activities;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -20,12 +24,16 @@ import org.json.JSONObject;
 import org.parceler.Parcels;
 
 import cz.msebera.android.httpclient.Header;
+import jp.wasabeef.picasso.transformations.RoundedCornersTransformation;
 
 public class ComposeActivity extends AppCompatActivity{
     TwitterClient client;
     User user;
     EditText etStatus;
     Tweet tweet;
+    TextView tvCount;
+    int length;
+    Button btnSubmit;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -45,6 +53,34 @@ public class ComposeActivity extends AppCompatActivity{
 
             }
         });
+
+        tvCount = (TextView) findViewById(R.id.tvCount);
+        btnSubmit = (Button) findViewById(R.id.btTweet);
+        etStatus.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // Fires right as the text is being changed (even supplies the range of text)
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count,
+                                          int after) {
+                // Fires right before text is changing
+                tvCount.setText(String.valueOf(140));
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                // Fires right after the text has changed
+                length = 140-s.toString().length();
+                if (length < 0) {
+                    tvCount.setTextColor(Color.parseColor("#ff000"));
+                    tvCount.setText(String.valueOf(length));
+                    btnSubmit.setEnabled(false);
+                }
+                tvCount.setText(String.valueOf(length));
+            }
+        });
     }
 
     private void populateComposeHeader(User user) {
@@ -54,7 +90,7 @@ public class ComposeActivity extends AppCompatActivity{
 
         tvName.setText(user.getFullName());
         tvScreenName.setText("@" + user.getScreenName());
-        Picasso.with(this).load(user.getProfileImageUrl()).into(ivProfileImage);
+        Picasso.with(this).load(user.getProfileImageUrl()).transform(new RoundedCornersTransformation(10,10)).into(ivProfileImage);
     }
 
     public void onTweet(View view) {
@@ -73,5 +109,9 @@ public class ComposeActivity extends AppCompatActivity{
 
             }
         });
+    }
+
+    public void onXReturn(View view) {
+        finish();
     }
 }

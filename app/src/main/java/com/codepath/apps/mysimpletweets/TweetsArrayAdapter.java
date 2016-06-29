@@ -18,6 +18,8 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
 
+import jp.wasabeef.picasso.transformations.RoundedCornersTransformation;
+
 // Taking the Tweet objects and turning them into Views displayed in the list
 public class TweetsArrayAdapter extends ArrayAdapter<Tweet> {
 
@@ -39,6 +41,7 @@ public class TweetsArrayAdapter extends ArrayAdapter<Tweet> {
         }
         // 3. Find the subviews to fill with data in the template
         final ImageView ivProfileImage = (ImageView) convertView.findViewById(R.id.ivProfileImage);
+        ivProfileImage.setScaleType(ImageView.ScaleType.FIT_XY);
         TextView tvUserName = (TextView) convertView.findViewById(R.id.tvUserName);
         TextView tvBody = (TextView) convertView.findViewById(R.id.tvBody);
         TextView tvName = (TextView) convertView.findViewById(R.id.tvName);
@@ -49,7 +52,7 @@ public class TweetsArrayAdapter extends ArrayAdapter<Tweet> {
         tvName.setText("@" + tweet.getUser().getScreenName());
         tvTime.setText(getRelativeTimeAgo(tweet.getCreatedAt()));
         ivProfileImage.setImageResource(android.R.color.transparent); //clear out the old image for a recycled view
-        Picasso.with(getContext()).load(tweet.getUser().getProfileImageUrl()).into(ivProfileImage);
+        Picasso.with(getContext()).load(tweet.getUser().getProfileImageUrl()).transform(new RoundedCornersTransformation(10,10)).into(ivProfileImage);
 
         ivProfileImage.setTag(tweet.getUser().getScreenName());
         ivProfileImage.setOnClickListener(new View.OnClickListener() {

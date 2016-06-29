@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -31,7 +32,6 @@ public class TimelineActivity extends AppCompatActivity {
     HomeTimelineFragment homeTimeline;
     MentionsTimelineFragment mentionsTimeline;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,7 +47,11 @@ public class TimelineActivity extends AppCompatActivity {
         // Attach the tabstrip to the viewpager
         tabStrip.setViewPager(vpPager);
         //Log.d("TimelineActivity","got here");
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#4099FF")));
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#55ACEE")));
+        actionBar.setLogo(R.drawable.ic_icon);
+        actionBar.setDisplayUseLogoEnabled(true);
+        actionBar.setDisplayShowHomeEnabled(true);
 
         homeTimeline = new HomeTimelineFragment();
         mentionsTimeline = new MentionsTimelineFragment();
