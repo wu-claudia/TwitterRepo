@@ -25,9 +25,9 @@ import cz.msebera.android.httpclient.Header;
 public class TweetsListFragment extends Fragment {
 
     private ArrayList<Tweet> tweets;
-    private TweetsArrayAdapter aTweets;
+    TweetsArrayAdapter aTweets;
     private ListView lvTweets;
-    private SwipeRefreshLayout swipeContainer;
+    SwipeRefreshLayout swipeContainer;
     TwitterClient client;
 
     // inflation logic

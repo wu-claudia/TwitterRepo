@@ -52,7 +52,7 @@ public class TweetsArrayAdapter extends ArrayAdapter<Tweet> {
         tvName.setText("@" + tweet.getUser().getScreenName());
         tvTime.setText(getRelativeTimeAgo(tweet.getCreatedAt()));
         ivProfileImage.setImageResource(android.R.color.transparent); //clear out the old image for a recycled view
-        Picasso.with(getContext()).load(tweet.getUser().getProfileImageUrl()).transform(new RoundedCornersTransformation(10,10)).into(ivProfileImage);
+        Picasso.with(getContext()).load(tweet.getUser().getProfileImageUrl()).transform(new RoundedCornersTransformation(2,2)).into(ivProfileImage);
 
         ivProfileImage.setTag(tweet.getUser().getScreenName());
         ivProfileImage.setOnClickListener(new View.OnClickListener() {

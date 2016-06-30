@@ -35,7 +35,6 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
         client = TwitterApplication.getRestClient();
         // Get the account info
-        String username = getIntent().getStringExtra("username");
         if (getIntent().getStringExtra("username") != null) {
             screenName = getIntent().getStringExtra("username");
         } else {

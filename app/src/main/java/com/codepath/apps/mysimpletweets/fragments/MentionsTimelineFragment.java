@@ -48,4 +48,24 @@ public class MentionsTimelineFragment extends TweetsListFragment{
             }
         });
     }
+
+    public void refreshTweets() {
+        // Send the network request to fetch the updated data
+        // `client` here is an instance of Android Async HTTP
+        client.getMentionsTimeline(new JsonHttpResponseHandler() {
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                aTweets.clear();
+                aTweets.addAll(Tweet.fromJSONArray(response));
+                aTweets.notifyDataSetChanged();
+                swipeContainer.setRefreshing(false);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+                super.onFailure(statusCode, headers, responseString, throwable);
+            }
+        });
+    }
 }

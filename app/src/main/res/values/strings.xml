@@ -7,4 +7,5 @@
     <string name="title_activity_timeline">Home Timeline</string>
     <string name="status">What\'s Happening?</string>
     <string name="tweet">TWEET</string>
+    <string name="help">Help</string>
 </resources>

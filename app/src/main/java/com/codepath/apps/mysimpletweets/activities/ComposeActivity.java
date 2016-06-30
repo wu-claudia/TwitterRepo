@@ -55,6 +55,7 @@ public class ComposeActivity extends AppCompatActivity{
         });
 
         tvCount = (TextView) findViewById(R.id.tvCount);
+        tvCount.setText(String.valueOf(140));
         btnSubmit = (Button) findViewById(R.id.btTweet);
         etStatus.addTextChangedListener(new TextWatcher() {
             @Override
@@ -66,7 +67,6 @@ public class ComposeActivity extends AppCompatActivity{
             public void beforeTextChanged(CharSequence s, int start, int count,
                                           int after) {
                 // Fires right before text is changing
-                tvCount.setText(String.valueOf(140));
             }
 
             @Override
@@ -74,7 +74,7 @@ public class ComposeActivity extends AppCompatActivity{
                 // Fires right after the text has changed
                 length = 140-s.toString().length();
                 if (length < 0) {
-                    tvCount.setTextColor(Color.parseColor("#ff000"));
+                    tvCount.setTextColor(Color.parseColor("#ff0000"));
                     tvCount.setText(String.valueOf(length));
                     btnSubmit.setEnabled(false);
                 }
