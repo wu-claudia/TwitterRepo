@@ -29,11 +29,15 @@ import jp.wasabeef.picasso.transformations.RoundedCornersTransformation;
 public class ComposeActivity extends AppCompatActivity{
     TwitterClient client;
     User user;
-    EditText etStatus;
     Tweet tweet;
-    TextView tvCount;
     int length;
+
+    EditText etStatus;
+    TextView tvCount;
     Button btnSubmit;
+    TextView tvName;
+    TextView tvScreenName;
+    ImageView ivProfileImage;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -84,9 +88,9 @@ public class ComposeActivity extends AppCompatActivity{
     }
 
     private void populateComposeHeader(User user) {
-        TextView tvName = (TextView) findViewById(R.id.tvName);
-        TextView tvScreenName = (TextView) findViewById(R.id.tvScreenName);
-        ImageView ivProfileImage = (ImageView) findViewById(R.id.ivProfileImage);
+        tvName = (TextView) findViewById(R.id.tvName);
+        tvScreenName = (TextView) findViewById(R.id.tvScreenName);
+        ivProfileImage = (ImageView) findViewById(R.id.ivProfileImage);
 
         tvName.setText(user.getFullName());
         tvScreenName.setText("@" + user.getScreenName());

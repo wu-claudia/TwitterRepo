@@ -26,9 +26,10 @@ public class TweetsListFragment extends Fragment {
 
     private ArrayList<Tweet> tweets;
     TweetsArrayAdapter aTweets;
-    private ListView lvTweets;
     SwipeRefreshLayout swipeContainer;
     TwitterClient client;
+
+    private ListView lvTweets;
 
     // inflation logic
     @Override

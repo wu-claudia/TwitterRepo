@@ -52,6 +52,7 @@
         <activity android:name=".activities.ComposeActivity"></activity>
         <activity android:name=".activities.SearchActivity"
             android:icon="@drawable/ic_icon"></activity>
+        <activity android:name=".activities.DetailsActivity"></activity>
     </application>
 
 </manifest>

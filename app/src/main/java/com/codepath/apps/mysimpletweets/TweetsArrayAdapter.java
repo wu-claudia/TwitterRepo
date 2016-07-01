@@ -23,6 +23,12 @@ import jp.wasabeef.picasso.transformations.RoundedCornersTransformation;
 // Taking the Tweet objects and turning them into Views displayed in the list
 public class TweetsArrayAdapter extends ArrayAdapter<Tweet> {
 
+    TextView tvUserName;
+    TextView tvBody;
+    TextView tvName;
+    TextView tvTime;
+    ImageView ivProfileImage;
+
     public TweetsArrayAdapter(Context context, List<Tweet> tweets) {
         super(context, R.layout.fragment_tweets_list, tweets);
     }
@@ -40,12 +46,12 @@ public class TweetsArrayAdapter extends ArrayAdapter<Tweet> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_tweet,parent,false);
         }
         // 3. Find the subviews to fill with data in the template
-        final ImageView ivProfileImage = (ImageView) convertView.findViewById(R.id.ivProfileImage);
+        ivProfileImage = (ImageView) convertView.findViewById(R.id.ivProfileImage);
         ivProfileImage.setScaleType(ImageView.ScaleType.FIT_XY);
-        TextView tvUserName = (TextView) convertView.findViewById(R.id.tvUserName);
-        TextView tvBody = (TextView) convertView.findViewById(R.id.tvBody);
-        TextView tvName = (TextView) convertView.findViewById(R.id.tvName);
-        TextView tvTime = (TextView) convertView.findViewById(R.id.tvTime);
+        tvUserName = (TextView) convertView.findViewById(R.id.tvUserName);
+        tvBody = (TextView) convertView.findViewById(R.id.tvBody);
+        tvName = (TextView) convertView.findViewById(R.id.tvName);
+        tvTime = (TextView) convertView.findViewById(R.id.tvTime);
         // 4. Populate data into the subviews
         tvUserName.setText(tweet.getUser().getFullName());
         tvBody.setText(tweet.getBody());
