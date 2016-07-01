@@ -1,5 +1,7 @@
 package com.codepath.apps.mysimpletweets.activities;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.MenuItemCompat;
@@ -13,18 +15,14 @@ import com.codepath.apps.mysimpletweets.fragments.SearchListFragment;
 
 public class SearchActivity extends AppCompatActivity {
 
-    SearchListFragment searchFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
-        if (savedInstanceState == null) {
-            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.replace(R.id.flContainer,searchFragment);
-            ft.commit();
-        }
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#55ACEE")));
+        getSupportActionBar().setIcon(R.drawable.ic_icon);
     }
 
     @Override
@@ -37,7 +35,12 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 // perform query here
-                searchFragment = SearchListFragment.newInstance(query);
+                SearchListFragment searchFragment = SearchListFragment.newInstance(query);
+                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                ft.replace(R.id.flContainer, searchFragment);
+                ft.commit();
+
+                searchView.clearFocus();
 
                 return true;
             }

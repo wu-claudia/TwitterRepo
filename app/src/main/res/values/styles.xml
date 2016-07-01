@@ -13,4 +13,11 @@
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
 
+    <style name="TabTheme">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">48dp</item>
+        <item name="android:background">#FFF</item>
+        <item name="android:textColor">#55ACEE</item>
+    </style>
+
 </resources>

@@ -50,6 +50,8 @@
             android:name=".activities.TimelineActivity"></activity>
         <activity android:name=".activities.ProfileActivity"></activity>
         <activity android:name=".activities.ComposeActivity"></activity>
+        <activity android:name=".activities.SearchActivity"
+            android:icon="@drawable/ic_icon"></activity>
     </application>
 
 </manifest>

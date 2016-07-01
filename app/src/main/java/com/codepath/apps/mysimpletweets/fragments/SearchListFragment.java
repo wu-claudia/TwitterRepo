@@ -10,6 +10,7 @@ import com.codepath.apps.mysimpletweets.models.Tweet;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import cz.msebera.android.httpclient.Header;
@@ -39,8 +40,14 @@ public class SearchListFragment extends TweetsListFragment {
         client.searchTweets(query, new JsonHttpResponseHandler() {
 
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONArray json) {
-                addAll(Tweet.fromJSONArray(json)); //Returns all the items
+            public void onSuccess(int statusCode, Header[] headers, JSONObject json) {
+                JSONArray tweets = null;
+                try {
+                    tweets = json.getJSONArray("statuses");
+                    addAll(Tweet.fromJSONArray(tweets)); //Returns all the items
+                } catch (JSONException e){
+                    e.printStackTrace();
+                }
             }
 
             @Override
