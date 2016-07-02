@@ -31,7 +31,7 @@ public class ProfileActivity extends AppCompatActivity {
     TwitterClient client;
     User user;
     String screenName;
-    
+
     HomeTimelineFragment homeTimeline;
 
     @BindView(R.id.tvName) TextView tvName;
