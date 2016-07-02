@@ -30,7 +30,8 @@ import cz.msebera.android.httpclient.Header;
 public class ProfileActivity extends AppCompatActivity {
     TwitterClient client;
     User user;
-
+    String screenName;
+    
     HomeTimelineFragment homeTimeline;
 
     @BindView(R.id.tvName) TextView tvName;
@@ -51,13 +52,11 @@ public class ProfileActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         client = TwitterApplication.getRestClient();
         // Get the account info
-//        if (getIntent().getStringExtra("username") != null) {
-//            screenName = getIntent().getStringExtra("username");
-//        } else {
-//            screenName = getIntent().getStringExtra("screen_name");
-//        }
-
-        String screenName = getIntent().getStringExtra("screen_name");
+        if (getIntent().getStringExtra("username") != null) {
+            screenName = getIntent().getStringExtra("username");
+        } else {
+            screenName = getIntent().getStringExtra("screen_name");
+        }
         client.getUserInfo(screenName,new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
