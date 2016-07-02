@@ -4,14 +4,12 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.astuetz.PagerSlidingTabStrip;
 import com.codepath.apps.mysimpletweets.R;
 import com.codepath.apps.mysimpletweets.TwitterApplication;
 import com.codepath.apps.mysimpletweets.TwitterClient;
@@ -32,11 +30,6 @@ import cz.msebera.android.httpclient.Header;
 public class ProfileActivity extends AppCompatActivity {
     TwitterClient client;
     User user;
-    String screenName;
-
-    ViewPager vpPager;
-    PagerSlidingTabStrip tabStrip;
-    //TweetsPagerAdapter adapter;
 
     HomeTimelineFragment homeTimeline;
 
@@ -57,23 +50,14 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
         ButterKnife.bind(this);
         client = TwitterApplication.getRestClient();
-
-//        // Get the view pager
-//        vpPager = (ViewPager) findViewById(R.id.viewpager);
-//        // Set the viewpager adapter for the pager
-//        adapter = new TweetsPagerAdapter(getSupportFragmentManager());
-//        vpPager.setAdapter(adapter);
-//        // Find the pager tabstrip
-//        tabStrip = (PagerSlidingTabStrip) findViewById(R.id.tabs);
-//        // Attach the tabstrip to the viewpager
-//        tabStrip.setViewPager(vpPager);
-
         // Get the account info
-        if (getIntent().getStringExtra("username") != null) {
-            screenName = getIntent().getStringExtra("username");
-        } else {
-            screenName = getIntent().getStringExtra("screen_name");
-        }
+//        if (getIntent().getStringExtra("username") != null) {
+//            screenName = getIntent().getStringExtra("username");
+//        } else {
+//            screenName = getIntent().getStringExtra("screen_name");
+//        }
+
+        String screenName = getIntent().getStringExtra("screen_name");
         client.getUserInfo(screenName,new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
@@ -129,36 +113,4 @@ public class ProfileActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
-//    // Return the order of the fragments in the view pager
-//    public class TweetsPagerAdapter extends FragmentPagerAdapter {
-//        final int PAGE_COUNT = 2;
-//        private String tabTitles[] = {"TWEETS","PHOTOS","FAVORITES"};
-//
-//        public TweetsPagerAdapter(FragmentManager fm) {
-//            super(fm);
-//        }
-//
-//        // The order and creation of fragments within the pager
-//        @Override
-//        public Fragment getItem(int position) {
-//            if (position == 0) {
-//                return homeTimeline;
-//            } else {
-//                return null;
-//            }
-//        }
-//
-//        // Return the tab title
-//        @Override
-//        public CharSequence getPageTitle(int position) {
-//            return tabTitles[position];
-//        }
-//
-//        // Returns the number of tab titles
-//        @Override
-//        public int getCount() {
-//            return tabTitles.length;
-//        }
-//    }
 }

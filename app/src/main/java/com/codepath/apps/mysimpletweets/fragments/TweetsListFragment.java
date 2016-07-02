@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.codepath.apps.mysimpletweets.R;
 import com.codepath.apps.mysimpletweets.TweetsArrayAdapter;
@@ -48,7 +47,7 @@ public class TweetsListFragment extends Fragment {
         lvTweets.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getContext(),"CLICKED",Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getContext(),"CLICKED",Toast.LENGTH_SHORT).show();
                 Intent i = new Intent(getActivity(), DetailsActivity.class);
                 i.putExtra("tweet", Parcels.wrap(tweets.get(position)));
                 startActivity(i);
