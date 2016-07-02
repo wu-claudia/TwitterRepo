@@ -23,6 +23,8 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONObject;
 import org.parceler.Parcels;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import cz.msebera.android.httpclient.Header;
 import jp.wasabeef.picasso.transformations.RoundedCornersTransformation;
 
@@ -31,20 +33,26 @@ public class ComposeActivity extends AppCompatActivity{
     User user;
     Tweet tweet;
     int length;
+    String usernameReply;
+    long replyTo;
 
-    EditText etStatus;
-    TextView tvCount;
-    Button btnSubmit;
-    TextView tvName;
-    TextView tvScreenName;
-    ImageView ivProfileImage;
+    @BindView(R.id.etStatus) EditText etStatus;
+    @BindView(R.id.tvCount) TextView tvCount;
+    @BindView(R.id.btTweet) Button btnSubmit;
+    @BindView(R.id.tvName)TextView tvName;
+    @BindView(R.id.tvScreenName) TextView tvScreenName;
+    @BindView(R.id.ivProfileImage) ImageView ivProfileImage;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_compose);
         client = TwitterApplication.getRestClient();
-        etStatus = (EditText) findViewById(R.id.etStatus);
+        ButterKnife.bind(this);
+
+        usernameReply = getIntent().getStringExtra("name");
+        replyTo = getIntent().getLongExtra("reply",0);
+
         client.getUserInfo(null,new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
@@ -58,9 +66,7 @@ public class ComposeActivity extends AppCompatActivity{
             }
         });
 
-        tvCount = (TextView) findViewById(R.id.tvCount);
         tvCount.setText(String.valueOf(140));
-        btnSubmit = (Button) findViewById(R.id.btTweet);
         etStatus.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -88,17 +94,17 @@ public class ComposeActivity extends AppCompatActivity{
     }
 
     private void populateComposeHeader(User user) {
-        tvName = (TextView) findViewById(R.id.tvName);
-        tvScreenName = (TextView) findViewById(R.id.tvScreenName);
-        ivProfileImage = (ImageView) findViewById(R.id.ivProfileImage);
 
         tvName.setText(user.getFullName());
         tvScreenName.setText("@" + user.getScreenName());
+        if (usernameReply != "") {
+            etStatus.setText(usernameReply);
+        }
         Picasso.with(this).load(user.getProfileImageUrl()).transform(new RoundedCornersTransformation(10,10)).into(ivProfileImage);
     }
 
     public void onTweet(View view) {
-        client.postTweet(etStatus.getText().toString(),new JsonHttpResponseHandler() {
+        client.postTweet(etStatus.getText().toString(), replyTo, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                     tweet = Tweet.fromJSON(response);

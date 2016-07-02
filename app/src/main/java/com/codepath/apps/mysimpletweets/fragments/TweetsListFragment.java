@@ -1,5 +1,6 @@
 package com.codepath.apps.mysimpletweets.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -7,15 +8,19 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.codepath.apps.mysimpletweets.R;
 import com.codepath.apps.mysimpletweets.TweetsArrayAdapter;
 import com.codepath.apps.mysimpletweets.TwitterClient;
+import com.codepath.apps.mysimpletweets.activities.DetailsActivity;
 import com.codepath.apps.mysimpletweets.models.Tweet;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 import org.json.JSONArray;
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +45,15 @@ public class TweetsListFragment extends Fragment {
         lvTweets = (ListView) v.findViewById(R.id.lvTweets);
         //Connect adapter to list view
         lvTweets.setAdapter(aTweets);
-        //lvTweets.setOnItemClickListener()
+        lvTweets.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(getContext(),"CLICKED",Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(getActivity(), DetailsActivity.class);
+                i.putExtra("tweet", Parcels.wrap(tweets.get(position)));
+                startActivity(i);
+            }
+        });
 
         client = new TwitterClient(this.getContext());
 

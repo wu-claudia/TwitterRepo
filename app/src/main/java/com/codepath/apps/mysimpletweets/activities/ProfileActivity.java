@@ -25,6 +25,8 @@ import org.json.JSONObject;
 
 import java.text.NumberFormat;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import cz.msebera.android.httpclient.Header;
 
 public class ProfileActivity extends AppCompatActivity {
@@ -38,16 +40,22 @@ public class ProfileActivity extends AppCompatActivity {
 
     HomeTimelineFragment homeTimeline;
 
-    TextView tvName;
-    TextView tvTagline;
-    TextView tvFollowers;
-    TextView tvFollowing;
-    ImageView ivProfileImage;
+    @BindView(R.id.tvName) TextView tvName;
+    @BindView(R.id.tvTagline) TextView tvTagline;
+    @BindView(R.id.tvFollowers) TextView tvFollowers;
+    @BindView(R.id.tvFollowing) TextView tvFollowing;
+    @BindView(R.id.ivProfileImage) ImageView ivProfileImage;
+    @BindView(R.id.ivBanner) ImageView ivBannerImage;
+    @BindView(R.id.tvUserName) TextView tvUser;
+    @BindView(R.id.tvFollowersText) TextView tvFollowersText;
+    @BindView(R.id.tvFollowingText) TextView tvFollowingText;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+        ButterKnife.bind(this);
         client = TwitterApplication.getRestClient();
 
 //        // Get the view pager
@@ -71,7 +79,7 @@ public class ProfileActivity extends AppCompatActivity {
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 user = User.fromJSON(response);
                 // My current user account's info
-                getSupportActionBar().setTitle(user.getScreenName());
+                getSupportActionBar().setTitle("@" + user.getScreenName());
                 getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#4099FF")));
                 populateProfileHeader(user);
             }
@@ -95,17 +103,16 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void populateProfileHeader(User user) {
-        tvName = (TextView) findViewById(R.id.tvName);
-        tvTagline = (TextView) findViewById(R.id.tvTagline);
-        tvFollowers = (TextView) findViewById(R.id.tvFollowers);
-        tvFollowing = (TextView) findViewById(R.id.tvFollowing);
-        ivProfileImage = (ImageView) findViewById(R.id.ivProfileImage);
 
         tvName.setText(user.getName());
+        tvUser.setText("@" + user.getScreenName());
         tvTagline.setText(user.getTagline());
-        tvFollowers.setText(NumberFormat.getIntegerInstance().format(user.getFollowersCount()) + " Followers");
-        tvFollowing.setText(NumberFormat.getIntegerInstance().format(user.getFriendsCount()) + " Following");
+        tvFollowersText.setText(" Followers");
+        tvFollowingText.setText(" Following");
+        tvFollowers.setText(NumberFormat.getIntegerInstance().format(user.getFollowersCount()));
+        tvFollowing.setText(NumberFormat.getIntegerInstance().format(user.getFriendsCount()));
         Picasso.with(this).load(user.getProfileImageUrl()).into(ivProfileImage);
+        Picasso.with(this).load(user.getBannerUrl()).into(ivBannerImage);
     }
 
     @Override

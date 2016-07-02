@@ -15,6 +15,9 @@ public class Tweet {
     private long uid; // unique id for the tweet
     private User user; //Store embedded User object
     private String createdAt;
+    private int favCount;
+    private int retweetCount;
+    private String mediaUrl;
 
     public String getBody() {
         return body;
@@ -32,6 +35,18 @@ public class Tweet {
         return user;
     }
 
+    public int getFavCount() {
+        return favCount;
+    }
+
+    public int getRetweetCount() {
+        return retweetCount;
+    }
+
+    public String getMediaUrl() {
+        return mediaUrl;
+    }
+
     // Deserialize the JSON and build Tweet objects
     // Tweet.fromJSON("{...}) => <Tweet>
     public static Tweet fromJSON(JSONObject jsonObject) {
@@ -42,6 +57,10 @@ public class Tweet {
             tweet.uid = jsonObject.getLong("id");
             tweet.createdAt = jsonObject.getString("created_at");
             tweet.user = User.fromJSON(jsonObject.getJSONObject("user"));
+            tweet.favCount = jsonObject.optInt("favorite_count");
+            tweet.retweetCount = jsonObject.optInt("retweet_count");
+            JSONArray media = jsonObject.getJSONObject("entities").getJSONArray("media");
+            tweet.mediaUrl = media.getJSONObject(0).getString("media_url");
 
         } catch (JSONException e) {
             e.printStackTrace();

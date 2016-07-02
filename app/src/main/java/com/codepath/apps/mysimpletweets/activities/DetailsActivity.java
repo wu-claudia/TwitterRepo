@@ -1,67 +1,50 @@
 package com.codepath.apps.mysimpletweets.activities;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.codepath.apps.mysimpletweets.R;
-import com.codepath.apps.mysimpletweets.TwitterApplication;
-import com.codepath.apps.mysimpletweets.TwitterClient;
 import com.codepath.apps.mysimpletweets.models.Tweet;
 import com.codepath.apps.mysimpletweets.models.User;
-import com.loopj.android.http.JsonHttpResponseHandler;
 import com.squareup.picasso.Picasso;
 
-import org.json.JSONObject;
 import org.parceler.Parcels;
 
-import java.text.NumberFormat;
-
-import cz.msebera.android.httpclient.Header;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import jp.wasabeef.picasso.transformations.RoundedCornersTransformation;
 
 public class DetailsActivity extends AppCompatActivity {
 
-    TwitterClient client;
     User user;
-    TextView tvName;
-    TextView tvTagline;
-    ImageView ivProfileImage;
-    TextView tvRetweets;
-    TextView tvLikes;
+    Tweet tweet;
+
+    @BindView(R.id.tvName) TextView tvName;
+    @BindView(R.id.tvUserName) TextView tvUsername;
+    @BindView(R.id.ivProfileImage) ImageView ivProfileImage;
+    @BindView(R.id.tvRetweets) TextView tvRetweets;
+    @BindView(R.id.tvLikes) TextView tvLikes;
+    @BindView(R.id.tvBody) TextView tvBody;
+    @BindView(R.id.ivMedia) ImageView ivMedia;
+    @BindView(R.id.tvRetweetsText) TextView tvRetweetsText;
+    @BindView(R.id.tvLikesText) TextView tvLikesText;
+    @BindView(R.id.tvTime) TextView tvTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
+        ButterKnife.bind(this);
 
-        client = TwitterApplication.getRestClient();
+        tweet = Parcels.unwrap(getIntent().getParcelableExtra("tweet"));
+        user = tweet.getUser();
 
-        // get the screenName that tweeted from intent and store it to get more information about the tweet
-        // actually get the tweet ID and pass it in to do other things with it and get details
-
-        client.getUserInfo(screenName,new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                user = User.fromJSON(response);
-                // My current user account's info
-                getSupportActionBar().setTitle(user.getScreenName());
-                getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#4099FF")));
-                populateDetailPage(user);
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
-                super.onFailure(statusCode, headers, throwable, errorResponse);
-            }
-        });
-
-        Tweet tweet = Parcels.unwrap(getIntent().getParcelableExtra("tweet"));
-        populateDetailPage(user);
+        populateDetailPage();
     }
 
     @Override
@@ -76,18 +59,24 @@ public class DetailsActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void populateDetailPage(User user,Tweet tweet ???) {
-        tvName = (TextView) findViewById(R.id.tvName);
-        tvTagline = (TextView) findViewById(R.id.tvTagline);
-        ivProfileImage = (ImageView) findViewById(R.id.ivProfileImage);
-        tvRetweets = (TextView) findViewById(R.id.tvRetweets);
-        tvLikes = (TextView) findViewById(R.id.tvLikes);
-
-        tvName.setText(user.getName());
-        tvTagline.setText(user.getTagline());
-        tvRetweets.setText(); //tweet.getRetweets()
-        tvLikes.setText(); //tweets.getLikes()
+    private void populateDetailPage() {
+        tvName.setText(user.getFullName());
+        tvUsername.setText("@" + user.getScreenName());
+        tvRetweets.setText(String.valueOf(tweet.getRetweetCount()));
+        tvRetweetsText.setText(" RETWEETS");
+        tvLikes.setText(String.valueOf(tweet.getFavCount()));
+        tvLikesText.setText(" LIKES");
+        tvBody.setText(tweet.getBody());
+        tvTime.setText(tweet.getCreatedAt());
         Picasso.with(this).load(user.getProfileImageUrl()).into(ivProfileImage);
+
+        String mediaUrl = tweet.getMediaUrl();
+        if (mediaUrl != null) {
+            ivMedia.setVisibility(View.VISIBLE);
+            Picasso.with(getApplicationContext()).load(mediaUrl).transform(new RoundedCornersTransformation(2,2)).into(ivMedia);
+        } else {
+            ivMedia.setVisibility(View.GONE);
+        }
     }
 
 }

@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.codepath.apps.mysimpletweets.activities.ComposeActivity;
 import com.codepath.apps.mysimpletweets.activities.ProfileActivity;
 import com.codepath.apps.mysimpletweets.models.Tweet;
 import com.squareup.picasso.Picasso;
@@ -28,6 +29,10 @@ public class TweetsArrayAdapter extends ArrayAdapter<Tweet> {
     TextView tvName;
     TextView tvTime;
     ImageView ivProfileImage;
+    ImageView ivReply;
+    TextView tvRetweets;
+    TextView tvFav;
+    ImageView ivMedia;
 
     public TweetsArrayAdapter(Context context, List<Tweet> tweets) {
         super(context, R.layout.fragment_tweets_list, tweets);
@@ -40,7 +45,7 @@ public class TweetsArrayAdapter extends ArrayAdapter<Tweet> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         // 1. Get the tweet
-        Tweet tweet = getItem(position);
+        final Tweet tweet = getItem(position);
         // 2. Find or inflate the template
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_tweet,parent,false);
@@ -52,21 +57,58 @@ public class TweetsArrayAdapter extends ArrayAdapter<Tweet> {
         tvBody = (TextView) convertView.findViewById(R.id.tvBody);
         tvName = (TextView) convertView.findViewById(R.id.tvName);
         tvTime = (TextView) convertView.findViewById(R.id.tvTime);
+        ivReply = (ImageView) convertView.findViewById(R.id.ivReply);
+        tvRetweets = (TextView) convertView.findViewById(R.id.tvRetweets);
+        tvFav = (TextView) convertView.findViewById(R.id.tvFavorites);
+        ivMedia = (ImageView) convertView.findViewById(R.id.ivMedia);
+
+
         // 4. Populate data into the subviews
         tvUserName.setText(tweet.getUser().getFullName());
         tvBody.setText(tweet.getBody());
         tvName.setText("@" + tweet.getUser().getScreenName());
         tvTime.setText(getRelativeTimeAgo(tweet.getCreatedAt()));
         ivProfileImage.setImageResource(android.R.color.transparent); //clear out the old image for a recycled view
+
+        int retweet = tweet.getRetweetCount();
+        int fav = tweet.getFavCount();
+        if (retweet != 0) {
+            tvRetweets.setText(String.valueOf(retweet));
+        }
+        if (fav != 0) {
+            tvFav.setText(String.valueOf(fav));
+        }
         Picasso.with(getContext()).load(tweet.getUser().getProfileImageUrl()).transform(new RoundedCornersTransformation(2,2)).into(ivProfileImage);
 
-        ivProfileImage.setTag(tweet.getUser().getScreenName());
+        String mediaUrl = tweet.getMediaUrl();
+        if (mediaUrl != null) {
+            ivMedia.setVisibility(View.VISIBLE);
+            Picasso.with(getContext()).load(mediaUrl).transform(new RoundedCornersTransformation(2,2)).into(ivMedia);
+        } else {
+            ivMedia.setVisibility(View.GONE);
+        }
+
+        //ivProfileImage.setTag(tweet.getUser().getScreenName());
         ivProfileImage.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getContext(), ProfileActivity.class);
-                i.putExtra("username",(String) ivProfileImage.getTag());
+                i.putExtra("username", tweet.getUser().getScreenName());
+                //Toast.makeText(getContext(), tweet.getUser().getScreenName(), Toast.LENGTH_SHORT).show();
+                getContext().startActivity(i);
+            }
+        });
+
+        ivReply.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getContext(), ComposeActivity.class);
+                long replyTo = tweet.getUid();
+                String usernameReply = ("@" + tweet.getUser().getScreenName());
+                i.putExtra("name", usernameReply);
+                i.putExtra("reply",replyTo);
                 getContext().startActivity(i);
             }
         });

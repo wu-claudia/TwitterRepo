@@ -12,7 +12,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.codepath.apps.mysimpletweets.R;
@@ -83,6 +82,10 @@ public class TimelineActivity extends AppCompatActivity {
 
     public void onComposeView(MenuItem mi) {
         Intent i = new Intent(this, ComposeActivity.class);
+        long reply = 0;
+        String name = "";
+        i.putExtra("reply",reply);
+        i.putExtra("name",name);
         startActivityForResult(i,REQUEST_CODE);
     }
 
@@ -97,12 +100,6 @@ public class TimelineActivity extends AppCompatActivity {
             tweet = Parcels.unwrap(data.getParcelableExtra("tweet"));
             homeTimeline.addTweet(tweet);
         }
-    }
-
-    public void onTweetSelected(View view) {
-        Intent i = new Intent(this, DetailsActivity.class);
-        i.putExtra() //Pass the tweet id of the MenuItem mi into the DetailsActivity
-        startActivity(i);
     }
 
     // Return the order of the fragments in the view pager

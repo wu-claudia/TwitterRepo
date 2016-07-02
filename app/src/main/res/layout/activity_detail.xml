@@ -4,11 +4,13 @@
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
     android:padding="10dp"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:id="@+id/llDetail">
 
     <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:id="@+id/rlHeader">
 
         <ImageView
             android:layout_width="75dp"
@@ -19,8 +21,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="Billy"
-            android:id="@+id/tvUserName"
+            android:id="@+id/tvName"
             android:layout_alignParentTop="true"
             android:layout_toRightOf="@+id/ivProfileImage"
             android:layout_toEndOf="@+id/ivProfileImage"
@@ -30,11 +31,10 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="billy"
-            android:id="@+id/tvName"
-            android:layout_toRightOf="@+id/tvUserName"
+            android:id="@+id/tvUserName"
+            android:layout_toRightOf="@+id/tvName"
             android:layout_marginLeft="5dp"
-            android:layout_alignParentTop="true"
+            android:layout_below="@+id/tvName"
             android:textColor="#66757f" />
     </RelativeLayout>
 
@@ -44,18 +44,25 @@
         tools:text="Body of Tweet"
         android:id="@+id/tvBody"
         android:layout_toRightOf="@+id/ivProfileImage"
-        android:layout_below="@+id/tvUserName"
+        android:layout_below="@+id/rlHeader"
         android:autoLink="all"
         android:linksClickable="true"
         android:textColor="#292f33" />
 
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:id="@+id/ivMedia"
+        android:layout_gravity="center_horizontal"
+        android:layout_above="@+id/llExtras"/>
+
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="1m"
         android:id="@+id/tvTime"
-        android:layout_above="@+id/tvBody"
+        android:layout_below="@+id/ivMedia"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:textColor="#66757f" />
@@ -63,17 +70,40 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:id="@+id/llExtras">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textColor="#000"
+            android:text="Number"
             android:id="@+id/tvRetweets" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/tvLikes" />
+            android:textColor="#66757f"
+            android:text="@string/followers"
+            android:id="@+id/tvRetweetsText"
+            android:layout_marginRight="10dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvLikes"
+            android:textColor="#000"
+            android:textStyle="bold"
+            android:text="Number"
+            android:layout_marginLeft="20dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvLikesText"
+            android:textColor="#66757f"
+            android:text="@string/following" />
 
     </LinearLayout>
 
